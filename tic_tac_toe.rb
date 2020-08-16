@@ -17,9 +17,11 @@ class Board
     self.player += 1
     "#{self.top}\n#{self.middle}\n#{self.bottom}\n\n"
   end
+
   def display_player
     self.player.even? ? "Player Two's turn\n" : "Player One's turn\n"
   end
+
   def winner?
       if self.top.all? "X" or self.top.all? "O"
          true
@@ -45,52 +47,114 @@ class Board
       end
   end
 
+  def get_it_right
+    self.turns -= 1
+    puts self.display_player
+    play = gets.chomp.downcase
+    self.players_choice(play)
+  end
+  
   def players_choice(c)
     self.turns += 1
-      if c.start_with? "top"
-
-          if c.end_with? "left"
-            self.player.even? ? self.top[0] = "O": self.top[0] = "X" 
-
-          elsif c.end_with? "middle"
-            self.player.even? ? self.top[1] = "O": self.top[1] = "X" 
-
-          elsif c.end_with? "right"
+    c = c.split(" ")
+    if c.length == 2
+  
+      if c.first.eql? "top"
+  
+        if c.last.eql? "left"
+          if self.top[0] == " "
+          self.player.even? ? self.top[0] = "O": self.top[0] = "X"
+          else
+            puts "position taken, try a different one\n"
+            self.get_it_right
+          end
+        elsif c.last.eql? "middle"
+          if self.top[1] == " "
+          self.player.even? ? self.top[1] = "O": self.top[1] = "X" 
+          else
+            puts "position taken, try a different one\n"
+            self.get_it_right
+          end
+          
+  
+        elsif c.last.eql? "right"
+          if self.top[2] == " "
             self.player.even? ? self.top[2] = "O": self.top[2] = "X" 
-              
+            else
+              puts "position taken, try a different one\n"
+              self.get_it_right
+            end 
+            
+        end
+  
+       elsif c.first.eql? "middle"
+  
+        if c.last.eql? "left"
+          if self.middle[0] == " "
+            self.player.even? ? self.middle[0] = "O": self.middle[0] = "X"   
+          else
+            puts "position taken, try a different one\n"
+            self.get_it_right
           end
 
-      elsif c.start_with? "middle"
-
-        if c.end_with? "left"
-            self.player.even? ? self.middle[0] = "O": self.middle[0] = "X"   
-
-        elsif c.end_with? "middle"
+        elsif c.last.eql? "middle"
+          if self.middle[1] == " "
             self.player.even? ? self.middle[1] = "O": self.middle[1] = "X"   
-
-        elsif c.end_with? "right"
+          else
+            puts "position taken, try a different one\n"
+            self.get_it_right
+          end   
+  
+        elsif c.last.eql? "right"
+          if self.middle[2] == " "
             self.player.even? ? self.middle[2] = "O": self.middle[2] = "X"   
-            
+          else
+            puts "position taken, try a different one\n"
+            self.get_it_right
+          end   
+          
+       end
+  
+      elsif c.first.eql? "bottom"
+  
+       if c.last.eql? "left"
+        if self.bottom[0] == " "
+          self.player.even? ? self.bottom[0] = "O": self.bottom[0] = "X"   
+        else
+          puts "position taken, try a different one\n"
+          self.get_it_right
         end
 
-      elsif c.start_with? "bottom"
-
-        if c.end_with? "left"
-            self.player.even? ? self.bottom[0] = "O": self.bottom[0] = "X"   
-
-        elsif c.end_with? "middle"
-            self.player.even? ? self.bottom[1] = "O": self.bottom[1] = "X"   
-
-        elsif c.end_with? "right"
-            self.player.even? ? self.bottom[2] = "O": self.bottom[2] = "X"   
-            
-        end
-
-      end
+       elsif c.last.eql? "middle"
+        if self.bottom[1] == " "
+          self.player.even? ? self.bottom[1] = "O": self.bottom[1] = "X"   
+        else
+          puts "position taken, try a different one\n"
+          self.get_it_right
+        end   
+  
+       elsif c.last.eql? "right"
+        if self.bottom[2] == " "
+          self.player.even? ? self.bottom[2] = "O": self.bottom[2] = "X"   
+        else
+          puts "position taken, try a different one\n"
+          self.get_it_right
+        end   
+          
+       end
+  
+     end
+  
+    else
+    puts "invalid input, try again\n"
+    self.get_it_right
+    end
+    
   end
+
 end
 
- def start_game
+def start_game
     puts"Tic Tac Toe Has Begun \n \n"
     nu_board = Board.new
     end_game = "DRAW"
@@ -112,6 +176,6 @@ end
 
      end
      end_game
- end
+end
 
- p start_game
+p start_game
